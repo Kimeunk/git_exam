@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div id="demo">
+	<button>add</button>
+	<ul>
+		<li>tes1</li>
+		<li>tes2</li>
+		<li>test3</li>
+	</ul>
+</div>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>  
+<script>
+$('#demo li').bind('click', function(){
+	alert($(this).text());
+	
+});
+
+// (1) 비동적 처리
+// append쓰면 계쏙 추가 ; 추가되면서 들어간느거는 계속 인식못함?
+// 위의 이벤트가 안 걸림.. 맨처음만이벤트가걸려
+/* $('#demo button').bind('click', function(){
+	$('#demo').append('<li><font color=red>ㅋㅋ</font></li>');
+}); */
+
+// (2) 동적 처리; bind:이벤트걸고, unbind:이벤트 해체, -> 바인드비추천!!ㅎ on으로쓰셈
+$('#demo button').bind('click', function(){
+	$('#demo li').unbind('click');
+	$('#demo ul').append('<li><font color=red>ㅋㅋ</font></li>').find($('li')).click(function(){
+		alert($(this).text());
+		
+	});
+	
+});
+
+</script>
+
+</body>
+</html>

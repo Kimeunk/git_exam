@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="imageboardSQL">
+	    <!-- 이미지게시판 글 작성 -->
+	    <insert id="imageboardWrite" parameterType="imageboard">
+	    	insert into imageboard values(seq_imageboard.nextval
+	    								  , #{imageId}
+	    								  , #{imageName}
+	    								  , #{imagePrice}
+	    								  , #{imageQty}
+	    								  , #{imageContent}
+	    								  , #{image1}
+	    								  , sysdate)
+	    </insert>
+    	
+    	<!-- 이미지게시판리스트 -->
+    	<select id="getImageboardList" parameterType="java.util.Map" resultType="imageboard">
+    		select * from 
+   		   (select  rownum rn, tt.* from 
+   		   (select * from imageboard 
+   		   order by seq desc)tt) 
+   		   where rn between #{startNum} and #{endNum}
+    	</select>
+    	
+    	<!-- 총 글 수; 페이징 처리 -->
+   		<select id="getImageboardTotalA" resultType="int">
+   		  select count(*) from imageboard
+   		</select>
+   		
+   		<!-- 글 보기 -->
+   		<select id="getImageboardView" parameterType="int" resultType="imageboard">
+   			select*from imageboard where seq=#{seq}
+   		</select>
+   		
+   		<!-- 선택한 게시물 삭제; foreach 좀 더 찾아보기 -->
+   		<!-- 쌤 -->
+   		<delete id="imageboardDelete" parameterType="java.util.Map">
+   			delete from imageboard where seq in
+   			 <foreach item="data" index="index" collection="array" open="(" separator="," close=")">
+        		#{data}
+			 </foreach>	
+   		
+   		</delete>
+   		
+    </mapper>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
